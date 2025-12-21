@@ -1,0 +1,55 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v9.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v9.0": {
+      "Infnet.PesqMgm.App/1.0.0": {
+        "dependencies": {
+          "Infnet.PesqMgm.Domain.Tests": "1.0.0"
+        },
+        "runtime": {
+          "Infnet.PesqMgm.App.dll": {}
+        }
+      },
+      "Infnet.PesqMgm.Domain/1.0.0": {
+        "runtime": {
+          "Infnet.PesqMgm.Domain.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "Infnet.PesqMgm.Domain.Tests/1.0.0": {
+        "dependencies": {
+          "Infnet.PesqMgm.Domain": "1.0.0"
+        },
+        "runtime": {
+          "Infnet.PesqMgm.Domain.Tests.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Infnet.PesqMgm.App/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Infnet.PesqMgm.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Infnet.PesqMgm.Domain.Tests/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

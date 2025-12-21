@@ -1,0 +1,113 @@
+{
+  "version": 3,
+  "targets": {
+    "net9.0": {
+      "Infnet.PesqMgm.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "compile": {
+          "bin/placeholder/Infnet.PesqMgm.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Infnet.PesqMgm.Domain.dll": {}
+        }
+      },
+      "Infnet.PesqMgm.Domain.Tests/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "dependencies": {
+          "Infnet.PesqMgm.Domain": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Infnet.PesqMgm.Domain.Tests.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Infnet.PesqMgm.Domain.Tests.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Infnet.PesqMgm.Domain/1.0.0": {
+      "type": "project",
+      "path": "../Infnet.PesqMgm.Domain/Infnet.PesqMgm.Domain.csproj",
+      "msbuildProject": "../Infnet.PesqMgm.Domain/Infnet.PesqMgm.Domain.csproj"
+    },
+    "Infnet.PesqMgm.Domain.Tests/1.0.0": {
+      "type": "project",
+      "path": "../Infnet.PesqMgm.Domain.Tests/Infnet.PesqMgm.Domain.Tests.csproj",
+      "msbuildProject": "../Infnet.PesqMgm.Domain.Tests/Infnet.PesqMgm.Domain.Tests.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net9.0": [
+      "Infnet.PesqMgm.Domain.Tests >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "/home/vscode/.nuget/packages/": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "/workspaces/infnet_dotnet/src/Infnet.PesqMgm.App/Infnet.PesqMgm.App.csproj",
+      "projectName": "Infnet.PesqMgm.App",
+      "projectPath": "/workspaces/infnet_dotnet/src/Infnet.PesqMgm.App/Infnet.PesqMgm.App.csproj",
+      "packagesPath": "/home/vscode/.nuget/packages/",
+      "outputPath": "/workspaces/infnet_dotnet/src/Infnet.PesqMgm.App/obj/",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "/home/vscode/.nuget/NuGet/NuGet.Config"
+      ],
+      "originalTargetFrameworks": [
+        "net9.0"
+      ],
+      "sources": {
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "projectReferences": {
+            "/workspaces/infnet_dotnet/src/Infnet.PesqMgm.Domain.Tests/Infnet.PesqMgm.Domain.Tests.csproj": {
+              "projectPath": "/workspaces/infnet_dotnet/src/Infnet.PesqMgm.Domain.Tests/Infnet.PesqMgm.Domain.Tests.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
+      },
+      "SdkAnalysisLevel": "9.0.300"
+    },
+    "frameworks": {
+      "net9.0": {
+        "targetAlias": "net9.0",
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/9.0.306/PortableRuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}

@@ -1,0 +1,74 @@
+@startuml GestaoPesquisas
+
+' Diagrama de classes inicial para o contexto "Gestao de Pesquisas"
+' Arquivo gerado por GitHub Copilot
+
+skinparam classAttributeIconSize 0
+
+package "Gestão de Pesquisas" as GP {
+
+  class Pesquisa <<Entity>> {
+    - Id: Guid
+    - Titulo: string
+    - Descricao: string
+    - Status: PesquisaStatus
+    - Perguntas: List<Pergunta>
+    - Gestor: Usuario
+    + Method1()
+  }
+  enum PesquisaStatus {
+    Rascunho
+    Ativa
+    Concluida
+    Cancelada
+  }
+  class Usuario <<Entity>> {
+    - Id: Guid
+    - Nome: string
+    - Email: string
+    - Perfil: PerfilUsuario
+    + Method1()
+  }
+  enum PerfilUsuario {
+    Gestor
+    Respondente
+  }
+  class Pergunta <<ValueObject>> {
+    - Id: Guid
+    - Texto: string
+    - Opcoes: List<String>
+    + Method1()
+  }
+  class Respostas <<Entity>> {
+    - Id: Guid
+    - Pesquisa: Pesquisa
+    - Respondente: Usuario
+    - Selecao: List<RespostaItem>
+    + Method1()    
+  }
+
+  class RespostaItem <<ValueObject>> {
+    - Id: Guid
+    - OpcaoSelecionada: string
+  }
+  class ResultadoSumarizado <<ValueObject>> {
+    - Id: Guid
+    - Pesquisa: Pesquisa
+    - Respostas: Respostas
+  }
+
+  note right
+    Nota: `ResultadoSumarizado` é um read-model/projeção derivada de `Respostas`.
+    Não possui ownership sobre as respostas; é recalculada/gerada pela apuração.
+  end note
+
+
+Usuario "1" o-- "0..*" Pesquisa : responsável por
+Pesquisa "1" *-- "0..*" Pergunta : contém
+Pesquisa "1" *-- "0..*" Respostas : possui
+Respostas "1" *-- "0..*" RespostaItem : contém
+Usuario "1" --> "1" Respostas : preenche
+ResultadoSumarizado "1" *-- "1..*" Respostas: associado
+ResultadoSumarizado "1" *-- "1" Pesquisa: associado
+
+@enduml

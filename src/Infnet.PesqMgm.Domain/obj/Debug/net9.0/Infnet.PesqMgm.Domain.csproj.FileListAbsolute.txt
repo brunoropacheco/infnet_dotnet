@@ -1,0 +1,12 @@
+/workspaces/infnet_dotnet/src/Infnet.PesqMgm.Domain/bin/Debug/net9.0/Infnet.PesqMgm.Domain.deps.json
+/workspaces/infnet_dotnet/src/Infnet.PesqMgm.Domain/bin/Debug/net9.0/Infnet.PesqMgm.Domain.dll
+/workspaces/infnet_dotnet/src/Infnet.PesqMgm.Domain/bin/Debug/net9.0/Infnet.PesqMgm.Domain.pdb
+/workspaces/infnet_dotnet/src/Infnet.PesqMgm.Domain/obj/Debug/net9.0/Infnet.PesqMgm.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/workspaces/infnet_dotnet/src/Infnet.PesqMgm.Domain/obj/Debug/net9.0/Infnet.PesqMgm.Domain.AssemblyInfoInputs.cache
+/workspaces/infnet_dotnet/src/Infnet.PesqMgm.Domain/obj/Debug/net9.0/Infnet.PesqMgm.Domain.AssemblyInfo.cs
+/workspaces/infnet_dotnet/src/Infnet.PesqMgm.Domain/obj/Debug/net9.0/Infnet.PesqMgm.Domain.csproj.CoreCompileInputs.cache
+/workspaces/infnet_dotnet/src/Infnet.PesqMgm.Domain/obj/Debug/net9.0/Infnet.PesqMgm.Domain.sourcelink.json
+/workspaces/infnet_dotnet/src/Infnet.PesqMgm.Domain/obj/Debug/net9.0/Infnet.PesqMgm.Domain.dll
+/workspaces/infnet_dotnet/src/Infnet.PesqMgm.Domain/obj/Debug/net9.0/refint/Infnet.PesqMgm.Domain.dll
+/workspaces/infnet_dotnet/src/Infnet.PesqMgm.Domain/obj/Debug/net9.0/Infnet.PesqMgm.Domain.pdb
+/workspaces/infnet_dotnet/src/Infnet.PesqMgm.Domain/obj/Debug/net9.0/ref/Infnet.PesqMgm.Domain.dll
