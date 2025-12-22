@@ -5,7 +5,7 @@
 
 skinparam classAttributeIconSize 0
 
-package "Gestão de Pesquisas" as GP {
+package "Digrama de Classes" {
 
   class Pesquisa <<Entity>> {
     - Id: Guid
@@ -14,7 +14,6 @@ package "Gestão de Pesquisas" as GP {
     - Status: PesquisaStatus
     - Perguntas: List<Pergunta>
     - Gestor: Usuario
-    + Method1()
   }
   enum PesquisaStatus {
     Rascunho
@@ -27,48 +26,44 @@ package "Gestão de Pesquisas" as GP {
     - Nome: string
     - Email: string
     - Perfil: PerfilUsuario
-    + Method1()
   }
   enum PerfilUsuario {
     Gestor
     Respondente
   }
   class Pergunta <<ValueObject>> {
-    - Id: Guid
     - Texto: string
     - Opcoes: List<String>
-    + Method1()
   }
-  class Respostas <<Entity>> {
+  class Resposta <<Entity>> {
     - Id: Guid
     - Pesquisa: Pesquisa
     - Respondente: Usuario
     - Selecao: List<RespostaItem>
-    + Method1()    
   }
 
   class RespostaItem <<ValueObject>> {
-    - Id: Guid
     - OpcaoSelecionada: string
   }
-  class ResultadoSumarizado <<ValueObject>> {
+  class ResultadoSumarizado <<Entity>> {
     - Id: Guid
     - Pesquisa: Pesquisa
-    - Respostas: Respostas
+    - DataCriacao: DateTime
+    - Tipo: TipoResultado
+    - UsuariosLeitores: List<Usuario>
+    - DadosConsolidados: string
   }
 
-  note right
-    Nota: `ResultadoSumarizado` é um read-model/projeção derivada de `Respostas`.
-    Não possui ownership sobre as respostas; é recalculada/gerada pela apuração.
-  end note
-
+  enum TipoResultado {
+    Parcial
+    Final
+  }
 
 Usuario "1" o-- "0..*" Pesquisa : responsável por
 Pesquisa "1" *-- "0..*" Pergunta : contém
-Pesquisa "1" *-- "0..*" Respostas : possui
-Respostas "1" *-- "0..*" RespostaItem : contém
-Usuario "1" --> "1" Respostas : preenche
-ResultadoSumarizado "1" *-- "1..*" Respostas: associado
-ResultadoSumarizado "1" *-- "1" Pesquisa: associado
+Pesquisa "1" *-- "0..*" Resposta : possui
+Resposta "1" *-- "0..*" RespostaItem : contém
+Usuario "1" --> "1" Resposta : preenche
+Pesquisa "1" -- "0..*" ResultadoSumarizado : possui histórico de
 
 @enduml

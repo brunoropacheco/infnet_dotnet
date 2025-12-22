@@ -1,0 +1,54 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+package "Gestão de Pesquisas" {
+
+  class Pesquisa <<Entity>> {
+    - Id: Guid
+    - Titulo: string
+    - Descricao: string
+    - Status: PesquisaStatus
+    - Perguntas: List<Pergunta>
+    - Gestor: Usuario
+  }
+  class Usuario <<Entity>> {
+    - Id: Guid
+    - Nome: string
+    - Email: string
+    - Perfil: PerfilUsuario
+  }
+  class Pergunta <<ValueObject>> {
+    - Texto: string
+    - Opcoes: List<String>
+  }
+}
+
+package "Gestão de Respostas" {
+  class Resposta <<Entity>> {
+    - Id: Guid
+    - Pesquisa: Pesquisa
+    - Respondente: Usuario
+    - Selecao: List<RespostaItem>
+  }
+
+  class RespostaItem <<ValueObject>> {
+    - OpcaoSelecionada: string
+  }
+}
+
+package "Gestão de Resultados" {
+  class ResultadoSumarizado <<Entity>> {
+    - Id: Guid
+    - Pesquisa: Pesquisa
+    - DataCriacao: DateTime
+    - Tipo: TipoResultado
+    - UsuariosLeitores: List<Usuario>
+    - DadosConsolidados: string
+  }
+}
+
+' Relacionamentos entre contextos
+"Gestão de Pesquisas" "Upstream" <.. "Downstream" "Gestão de Respostas" : <<Conformist>>
+"Gestão de Pesquisas" "Upstream" <.. "Downstream" "Gestão de Resultados" : <<Conformist>>
+
+@enduml

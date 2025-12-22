@@ -10,7 +10,7 @@ O eleitor responde às perguntas e registra suas **Respostas**. As **Respostas**
 
 As respostas registradas são então submetidas ao processo de **Apuração**, que valida as entradas, aplica regras de negócio (por exemplo, checagem de duplicidade) e consolida os resultados.
 
-Os **Resultados Sumarizados** (totais e porcentagens) são disponibilizados em painéis para Gestores e, conforme a configuração, ao público. Escala, disponibilidade e integridade dos dados são requisitos-chave: o serviço precisa manter a experiência do Eleitor e a confiança do Gestor mesmo durante picos de tráfego.
+Os **Resultados Sumarizados** são gerados como *snapshots* (retratos) dos dados em momentos específicos, classificados como **Parciais** ou **Finais**. Isso permite a construção de um histórico de evolução da pesquisa e garante alta performance na leitura, já que os dados consolidados são armazenados prontos para consumo, desacoplados das respostas individuais. Escala, disponibilidade e integridade dos dados são requisitos-chave: o serviço precisa manter a experiência do Eleitor e a confiança do Gestor mesmo durante picos de tráfego.
 
 Para alinhar o time e o produto ao negócio, adotamos DDD (Domain Driven Design) e uma linguagem ubíqua com termos como Pesquisa, Cenário, Gestor, Eleitor, Voto, Recebimento, Apuração e Resultado Sumarizado.
 
@@ -22,7 +22,7 @@ Para alinhar o time e o produto ao negócio, adotamos DDD (Domain Driven Design)
 - **Perguntas**: Perguntas que constarão nas pesquisas. Elas serão de multipla escolha e serão textos.
 - **Respostas**: Registro das escolhas do eleitor em uma pesquisa específica.
 - **Apuração**: Processo que valida e consolida as respostas do eleitor para gerar os resultados oficiais.
-- **Resultado Sumarizado**: Visão agregada (totais e porcentagens) disponível para gestores e público.
+- **Resultado Sumarizado**: Entidade que armazena o consolidado dos votos em um determinado momento (snapshot). Pode ser do tipo **Parcial** ou **Final**, permitindo que a pesquisa mantenha um histórico de evolução dos resultados.
 
 3. Contextos principais do negócio — Versão Compacta
 
@@ -38,5 +38,11 @@ Para alinhar o time e o produto ao negócio, adotamos DDD (Domain Driven Design)
   Responsabilidade: painéis, resumos e insights claros (totais, percentuais, filtros por cenário).
   Valor: facilita decisões rápidas e transparência para gestores e público.
 
+Aqui está o digrama de contextos: 
+![Diagrama de Contextos](./docs/diagrams/diag_contextos.png)
 
+Diagrama de Classes:
 
+![Diagrama de Contextos](./docs/diagrams/diag_class.png)
+
+4. 
