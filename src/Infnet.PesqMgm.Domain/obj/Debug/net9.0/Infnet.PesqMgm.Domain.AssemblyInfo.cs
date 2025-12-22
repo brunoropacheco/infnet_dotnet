@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Infnet.PesqMgm.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+82f2789e7368d9b3a79feeacd1abb3f4ed9a693d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+db57227e92dfcb029edeb8a53aaef7894da60e4f")]
 [assembly: System.Reflection.AssemblyProductAttribute("Infnet.PesqMgm.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Infnet.PesqMgm.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

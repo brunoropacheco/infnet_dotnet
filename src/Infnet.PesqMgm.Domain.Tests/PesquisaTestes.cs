@@ -15,36 +15,34 @@ public static class PesquisaTests
     /// </summary>
     public static Pesquisa CriarPesquisaExemplo(
         string titulo = "Eleição Municipal 2025",
-        string descricao = "Pesquisa de intenção de voto - exemplo",
-        DateOnly? inicio = null,
-        DateOnly? fim = null)
+        string descricao = "Pesquisa de intenção de voto - exemplo"
+    )
     {
-        var dataInicio = inicio ?? DateOnly.FromDateTime(DateTime.UtcNow.Date);
-        var dataFim = fim ?? DateOnly.FromDateTime(DateTime.UtcNow.Date.AddDays(7));
-
         var pergunta = new Pergunta
         {
             Texto = "Você votaria no candidato X?",
             Opcoes = new List<string> { "Sim", "Não" }
         };
 
-        var gestor = new Gestor
+        var gestor = new Usuario
         {
             Nome = "Gestor Exemplo",
-            Email = "gestor@exemplo.com"
+            Email = "gestor@exemplo.com",
+            Perfil = PerfilUsuario.Gestor
         };
+
+        var status = PesquisaStatus.Ativa;
 
         var pesquisa = new Pesquisa
         {
             Titulo = titulo,
             Descricao = descricao,
-            DataInicio = dataInicio,
-            DataFim = dataFim,
             Perguntas = new List<Pergunta> { pergunta },
-            Gestor = gestor
+            Gestor = gestor,
+            Status = status
         };
 
-        Console.WriteLine($"[PesquisaExemplo] Título: {pesquisa.Titulo} | Período: {pesquisa.DataInicio:yyyy-MM-dd} -> {pesquisa.DataFim:yyyy-MM-dd} | Gestor: {pesquisa.Gestor?.Nome}");
+        Console.WriteLine($"[PesquisaExemplo] Título: {pesquisa.Titulo} | Status: {pesquisa.Status.GetType().Name} | Gestor: {pesquisa.Gestor?.Nome}");
 
         return pesquisa;
     }
