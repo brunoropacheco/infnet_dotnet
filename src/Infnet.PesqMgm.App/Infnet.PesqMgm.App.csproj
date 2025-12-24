@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Infnet.PesqMgm.Domain.Tests\Infnet.PesqMgm.Domain.Tests.csproj" />
+    <ProjectReference Include="..\Infnet.PesqMgm.Infrastructure.Data\Infnet.PesqMgm.Infrastructure.Data.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

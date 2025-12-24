@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Infnet.PesqMgm.Domain;
+using Infnet.PesqMgm.Domain.Pesquisas;
 
 namespace Infnet.PesqMgm.Domain.Tests;
 
@@ -14,35 +14,19 @@ public static class PesquisaTests
     /// Útil para testes unitários e cenários de integração dentro deste contexto.
     /// </summary>
     public static Pesquisa CriarPesquisaExemplo(
-        string titulo = "Eleição Municipal 2025",
+        string titulo = "Pesquisa de Exemplo",
         string descricao = "Pesquisa de intenção de voto - exemplo"
     )
     {
-        var pergunta = new Pergunta
-        {
-            Texto = "Você votaria no candidato X?",
-            Opcoes = new List<string> { "Sim", "Não" }
-        };
+        var pergunta = Pergunta.Criar("Você votaria no candidato X?", new List<string> { "Sim", "Não" });
 
-        var gestor = new Usuario
-        {
-            Nome = "Gestor Exemplo",
-            Email = "gestor@exemplo.com",
-            Perfil = PerfilUsuario.Gestor
-        };
+        var gestor = Usuario.Criar("Gestor Exemplo", "gestor@exemplo.com", PerfilUsuario.Gestor);
 
-        var status = PesquisaStatus.Ativa;
+        var pesquisa = Pesquisa.Criar(titulo, descricao, gestor);
+        pesquisa.AdicionarPergunta(pergunta);
+        pesquisa.Publicar();
 
-        var pesquisa = new Pesquisa
-        {
-            Titulo = titulo,
-            Descricao = descricao,
-            Perguntas = new List<Pergunta> { pergunta },
-            Gestor = gestor,
-            Status = status
-        };
-
-        Console.WriteLine($"[PesquisaExemplo] Título: {pesquisa.Titulo} | Status: {pesquisa.Status.GetType().Name} | Gestor: {pesquisa.Gestor?.Nome}");
+        Console.WriteLine($"[PesquisaExemplo] Título: {pesquisa.Titulo} | Status: {pesquisa.Status} | Gestor: {pesquisa.Gestor?.Nome}");
 
         return pesquisa;
     }

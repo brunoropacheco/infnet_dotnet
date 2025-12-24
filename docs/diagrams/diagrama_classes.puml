@@ -15,6 +15,9 @@ package "Digrama de Classes" {
     - Perguntas: List<Pergunta>
     - Gestor: Usuario
   }
+  note right of Pesquisa
+    Entidade principal que agrupa a sondagem.
+  end note
   enum PesquisaStatus {
     Rascunho
     Ativa
@@ -27,37 +30,45 @@ package "Digrama de Classes" {
     - Email: string
     - Perfil: PerfilUsuario
   }
+  note right of Usuario
+    Entidade que representa um usuário do sistema. 
+    O usuario pode ser Gestor, LeitordeRelatorios ou Respondente.
+  end note
   enum PerfilUsuario {
     Gestor
+    LeitordeRelatorios
     Respondente
   }
   class Pergunta <<ValueObject>> {
     - Texto: string
     - Opcoes: List<String>
   }
-  class Resposta <<Entity>> {
-    - Id: Guid
+  class Resposta <<ValueObject>> {
     - Pesquisa: Pesquisa
-    - Respondente: Usuario
     - Selecao: List<RespostaItem>
   }
-
+  note top of Resposta
+    É um objeto de valor, pois somente os 
+    valores da resposta importam para o sistema. 
+    O sistema não se importa com a identidade 
+    da resposta e ela nao é mutável.
+  end note
   class RespostaItem <<ValueObject>> {
     - OpcaoSelecionada: string
   }
-  class ResultadoSumarizado <<Entity>> {
-    - Id: Guid
+  class ResultadoSumarizado <<ValueObject>> {
     - Pesquisa: Pesquisa
-    - DataCriacao: DateTime
-    - Tipo: TipoResultado
     - UsuariosLeitores: List<Usuario>
     - DadosConsolidados: string
   }
+  note bottom of ResultadoSumarizado
+    É um objeto de valor uma vez que representa 
+    dados consolidados de uma pesquisa, ou seja, 
+    somente os valores importam para o sistema. 
+    Ele não é mutável e não tem identidade própria. 
+    É um agregado da Pesquisa.
+  end note
 
-  enum TipoResultado {
-    Parcial
-    Final
-  }
 
 Usuario "1" o-- "0..*" Pesquisa : responsável por
 Pesquisa "1" *-- "0..*" Pergunta : contém

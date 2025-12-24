@@ -1,7 +1,8 @@
-namespace Infnet.PesqMgm.Domain;
+namespace Infnet.PesqMgm.Domain.Pesquisas;
 
 public enum PerfilUsuario
 {
     Gestor,
-    Respondente
+    Respondente,
+    LeitorDeRelatorios
 }
