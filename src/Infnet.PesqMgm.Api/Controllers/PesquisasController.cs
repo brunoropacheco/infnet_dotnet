@@ -35,6 +35,12 @@ public class PesquisasController : ControllerBase
         );
     }
 
+    /// <summary>
+    /// Cria uma nova pesquisa vinculada a um Gestor.
+    /// </summary>
+    /// <param name="request">Dados da pesquisa e ID do gestor.</param>
+    /// <returns>Retorna a pesquisa criada.</returns>
+    /// <response code="201">Pesquisa criada com sucesso.</response>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -75,6 +81,12 @@ public class PesquisasController : ControllerBase
         }
     }
     
+    /// <summary>
+    /// Obtém os detalhes de uma pesquisa pelo ID.
+    /// </summary>
+    /// <param name="id">ID da pesquisa.</param>
+    /// <returns>Detalhes da pesquisa.</returns>
+    /// <response code="200">Retorna a pesquisa solicitada.</response>
     [HttpGet("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -99,6 +111,10 @@ public class PesquisasController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Lista todas as pesquisas cadastradas.
+    /// </summary>
+    /// <returns>Lista de pesquisas.</returns>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -117,6 +133,12 @@ public class PesquisasController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Atualiza os dados básicos de uma pesquisa (título e descrição).
+    /// </summary>
+    /// <param name="id">ID da pesquisa.</param>
+    /// <param name="request">Novos dados da pesquisa.</param>
+    /// <returns>Pesquisa atualizada.</returns>
     [HttpPut("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -150,6 +172,11 @@ public class PesquisasController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Publica a pesquisa, alterando seu status para Ativa.
+    /// </summary>
+    /// <param name="id">ID da pesquisa.</param>
+    /// <returns>Pesquisa atualizada com novo status.</returns>
     [HttpPost("{id:guid}/publicar")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -180,6 +207,12 @@ public class PesquisasController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Adiciona uma pergunta à pesquisa.
+    /// </summary>
+    /// <param name="id">ID da pesquisa.</param>
+    /// <param name="request">Dados da pergunta e opções.</param>
+    /// <returns>Pesquisa atualizada com a nova pergunta.</returns>
     [HttpPost("{id:guid}/perguntas")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -213,6 +246,11 @@ public class PesquisasController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Registra uma resposta para a pesquisa.
+    /// </summary>
+    /// <param name="id">ID da pesquisa.</param>
+    /// <param name="request">Escolhas selecionadas.</param>
     [HttpPost("{id:guid}/respostas")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -246,6 +284,11 @@ public class PesquisasController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Encerra a pesquisa, impedindo novas respostas.
+    /// </summary>
+    /// <param name="id">ID da pesquisa.</param>
+    /// <returns>Pesquisa com status Encerrada.</returns>
     [HttpPost("{id:guid}/encerrar")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -276,6 +319,11 @@ public class PesquisasController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Gera o relatório sumarizado da pesquisa.
+    /// </summary>
+    /// <param name="id">ID da pesquisa.</param>
+    /// <param name="request">Lista de IDs de usuários que podem ler o resultado.</param>
     [HttpPost("{id:guid}/resultado")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -324,6 +372,11 @@ public class PesquisasController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Obtém o resultado sumarizado da pesquisa, se já tiver sido gerado.
+    /// </summary>
+    /// <param name="id">ID da pesquisa.</param>
+    /// <returns>Resultado sumarizado.</returns>
     [HttpGet("{id:guid}/resultado")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

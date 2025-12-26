@@ -121,3 +121,36 @@ A solução demonstra a testabilidade dos componentes em diferentes níveis:
 ## 10. Documentação da API
 
 A API foi documentada com a collection do Postman que está na pasta docs do repositório (docs/Infnet_PesqMgm.postman_collection.json). Definimos endpoints que cobrem as ações de negócio que serão feitas por uma futura camada de apresentação para o cliente final.
+
+## 11. Guia de Execução (Codespaces e Docker)
+
+Este projeto foi desenvolvido dentro do github utiliznado a funcionalidade do codespaces. Para rodar o projeto no codespace, basta criar o codespace na branch desejada e executar os passos abaixo:
+
+### 1. HTTP vs HTTPS
+*   A aplicação foi configurada para rodar internamente em **HTTP** na porta **5163** (padrão de containers .NET).
+
+### 2. Como Rodar (Via Terminal / Codespaces)
+Em ambientes como Codespaces, o **HTTPS** é fornecido automaticamente pelo túnel do GitHub (SSL termination). Portanto, o redirecionamento forçado para HTTPS dentro da aplicação (`app.UseHttpsRedirection`) deve ser desativado para evitar loops de redirecionamento ou erros de conexão.
+
+Para executar a API diretamente no terminal garantindo que ela esteja acessível externamente, utilize o comando abaixo:
+
+```bash
+dotnet run --project src/Infnet.PesqMgm.Api/Infnet.PesqMgm.Api.csproj
+```
+Voce pode entao usar a extensao do postman dentro do codespace para testar a API importando o arquivo json da pasta docs.
+
+Você também pode acessar o swagger da seguinte forma: execute o projeto e após a execução, vá até a aba PORTS no VS Code, localize a porta **5163** e clique no ícone do globo ("Open in Browser"). Adicione /swagger ao final da URL para visualizar a documentação.
+
+### 3. Como Rodar (Via Docker) 
+
+Para construir e executar a aplicação isolada em um container, utilizando o Dockerfile na raiz do repositório:
+
+#### 1. Construa a imagem:
+```bash
+docker build -t infnet-pesqmgm .
+```
+
+#### 2. Execute o container:
+```bash
+docker run -p 5163:8080 infnet-pesqmgm
+```

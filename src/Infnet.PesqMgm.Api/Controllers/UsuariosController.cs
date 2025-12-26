@@ -20,6 +20,11 @@ public class UsuariosController : ControllerBase
         _usuarioRepository = usuarioRepository;
     }
 
+    /// <summary>
+    /// Cria um novo usuário (Gestor).
+    /// </summary>
+    /// <param name="request">Dados do usuário a ser criado.</param>
+    /// <returns>Retorna o ID do usuário criado.</returns>
     [HttpPost]
     public async Task<IActionResult> CriarUsuario([FromBody] CriarUsuarioRequest request)
     {
@@ -39,6 +44,10 @@ public class UsuariosController : ControllerBase
         return Ok(new { id = usuario.Id, message = "Usuário criado com sucesso" });
     }
 
+    /// <summary>
+    /// Lista todos os usuários cadastrados.
+    /// </summary>
+    /// <returns>Uma lista de usuários.</returns>
     [HttpGet]
     public async Task<IActionResult> GetAllUsuarios()
     {
