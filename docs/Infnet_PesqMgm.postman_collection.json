@@ -333,7 +333,7 @@
 	"variable": [
 		{
 			"key": "baseUrl",
-			"value": "http://localhost:5163/api",
+			"value": "http://localhost:5163",
 			"type": "string"
 		},
 		{
