@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Infnet.PesqMgm.Api</name>
+    </assembly>
+    <members>
+        <member name="M:Infnet.PesqMgm.Api.Controllers.PesquisasController.CriarPesquisa(Infnet.PesqMgm.Api.Controllers.CriarPesquisaComIdRequest)">
+            <summary>
+            Cria uma nova pesquisa vinculada a um Gestor.
+            </summary>
+            <param name="request">Dados da pesquisa e ID do gestor.</param>
+            <returns>Retorna a pesquisa criada.</returns>
+            <response code="201">Pesquisa criada com sucesso.</response>
+        </member>
+        <member name="M:Infnet.PesqMgm.Api.Controllers.PesquisasController.GetPesquisaById(System.Guid)">
+            <summary>
+            Obtém os detalhes de uma pesquisa pelo ID.
+            </summary>
+            <param name="id">ID da pesquisa.</param>
+            <returns>Detalhes da pesquisa.</returns>
+            <response code="200">Retorna a pesquisa solicitada.</response>
+        </member>
+        <member name="M:Infnet.PesqMgm.Api.Controllers.PesquisasController.GetAllPesquisas">
+            <summary>
+            Lista todas as pesquisas cadastradas.
+            </summary>
+            <returns>Lista de pesquisas.</returns>
+        </member>
+        <member name="M:Infnet.PesqMgm.Api.Controllers.PesquisasController.UpdatePesquisa(System.Guid,Infnet.PesqMgm.Api.Controllers.UpdatePesquisaRequest)">
+            <summary>
+            Atualiza os dados básicos de uma pesquisa (título e descrição).
+            </summary>
+            <param name="id">ID da pesquisa.</param>
+            <param name="request">Novos dados da pesquisa.</param>
+            <returns>Pesquisa atualizada.</returns>
+        </member>
+        <member name="M:Infnet.PesqMgm.Api.Controllers.PesquisasController.PublicarPesquisa(System.Guid)">
+            <summary>
+            Publica a pesquisa, alterando seu status para Ativa.
+            </summary>
+            <param name="id">ID da pesquisa.</param>
+            <returns>Pesquisa atualizada com novo status.</returns>
+        </member>
+        <member name="M:Infnet.PesqMgm.Api.Controllers.PesquisasController.AdicionarPergunta(System.Guid,Infnet.PesqMgm.Api.Controllers.AdicionarPerguntaRequest)">
+            <summary>
+            Adiciona uma pergunta à pesquisa.
+            </summary>
+            <param name="id">ID da pesquisa.</param>
+            <param name="request">Dados da pergunta e opções.</param>
+            <returns>Pesquisa atualizada com a nova pergunta.</returns>
+        </member>
+        <member name="M:Infnet.PesqMgm.Api.Controllers.PesquisasController.AdicionarResposta(System.Guid,Infnet.PesqMgm.Api.Controllers.AdicionarRespostaRequest)">
+            <summary>
+            Registra uma resposta para a pesquisa.
+            </summary>
+            <param name="id">ID da pesquisa.</param>
+            <param name="request">Escolhas selecionadas.</param>
+        </member>
+        <member name="M:Infnet.PesqMgm.Api.Controllers.PesquisasController.EncerrarPesquisa(System.Guid)">
+            <summary>
+            Encerra a pesquisa, impedindo novas respostas.
+            </summary>
+            <param name="id">ID da pesquisa.</param>
+            <returns>Pesquisa com status Encerrada.</returns>
+        </member>
+        <member name="M:Infnet.PesqMgm.Api.Controllers.PesquisasController.GerarResultado(System.Guid,Infnet.PesqMgm.Api.Controllers.GerarResultadoRequest)">
+            <summary>
+            Gera o relatório sumarizado da pesquisa.
+            </summary>
+            <param name="id">ID da pesquisa.</param>
+            <param name="request">Lista de IDs de usuários que podem ler o resultado.</param>
+        </member>
+        <member name="M:Infnet.PesqMgm.Api.Controllers.PesquisasController.GetResultado(System.Guid)">
+            <summary>
+            Obtém o resultado sumarizado da pesquisa, se já tiver sido gerado.
+            </summary>
+            <param name="id">ID da pesquisa.</param>
+            <returns>Resultado sumarizado.</returns>
+        </member>
+        <member name="M:Infnet.PesqMgm.Api.Controllers.UsuariosController.CriarUsuario(Infnet.PesqMgm.Api.Dtos.CriarUsuarioRequest)">
+            <summary>
+            Cria um novo usuário (Gestor).
+            </summary>
+            <param name="request">Dados do usuário a ser criado.</param>
+            <returns>Retorna o ID do usuário criado.</returns>
+        </member>
+        <member name="M:Infnet.PesqMgm.Api.Controllers.UsuariosController.GetAllUsuarios">
+            <summary>
+            Lista todos os usuários cadastrados.
+            </summary>
+            <returns>Uma lista de usuários.</returns>
+        </member>
+    </members>
+</doc>

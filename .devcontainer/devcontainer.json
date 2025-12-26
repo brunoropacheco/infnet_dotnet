@@ -1,0 +1,31 @@
+{
+  "name": "C# .NET 9 - Arquitetura INFNET",
+  // Usa a imagem oficial da Microsoft para o .NET 9
+  "image": "mcr.microsoft.com/devcontainers/dotnet:1-9.0-bookworm",
+  
+  "features": {
+    // Instala Docker dentro do Codespace (obrigatório para rodar SQL Server)
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "moby": true,
+      "azureDnsAutoDetection": true,
+      "installDockerBuildx": true,
+      "version": "latest",
+      "dockerDashComposeVersion": "v2"
+    }
+  },
+  
+  // Customizações do VS Code (instala extensões automaticamente)
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-dotnettools.csdevkit", // C# Dev Kit (essencial)
+        "ms-dotnettools.csharp",
+        "pkief.material-icon-theme", // Ícones bonitos para pastas
+        "humao.rest-client" // Ótimo para testar API sem sair do VS Code
+      ]
+    }
+  },
+
+  // Garante que o usuário 'vscode' tenha permissão para rodar comandos
+  "remoteUser": "vscode"
+}

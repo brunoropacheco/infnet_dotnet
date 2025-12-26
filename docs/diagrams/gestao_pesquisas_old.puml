@@ -1,0 +1,111 @@
+@startuml GestaoPesquisas
+
+' Diagrama de classes inicial para o contexto "Gestao de Pesquisas"
+' Arquivo gerado por GitHub Copilot
+
+skinparam classAttributeIconSize 0
+
+package "Gestão de Pesquisas" as GP {
+  class Pesquisa {
+    - Id: Guid
+    - Titulo: string
+    - Descricao: string
+    - DataInicio: DateOnly
+    - DataFim: DateOnly
+    - Status: PesquisaStatus
+    - Candidatos: List<Candidato>
+    + Iniciar()
+    + Encerrar()
+  }
+  enum PesquisaStatus {
+    Rascunho
+    Ativa
+    Concluida
+    Cancelada
+  }
+  class Questionario {
+    - Id: Guid
+    - Nome: string
+    - Versao: string
+    + AdicionarPergunta(p: Pergunta)
+  }
+  class Pergunta {
+    - Id: Guid
+    - Texto: string
+    - Tipo: PerguntaTipo
+    - Obrigatoria: bool
+    + ValidarResposta(r: Resposta): bool
+  }
+  enum PerguntaTipo {
+    Aberta
+    UnicaEscolha
+    MultiplaEscolha
+    Numerica
+    Data
+    Escala
+  }
+  class OpcaoResposta {
+    - Id: Guid
+    - Texto: string
+    - Valor: string
+  }
+  class Eleitor {
+    - Id: Guid
+    - Nome: string
+    - Email: string
+    - DataNascimento: DateOnly
+    - RegistroEleitoral: string
+  }
+  class Resposta {
+    - Id: Guid
+    - EleitorId: Guid
+    - PerguntaId: Guid
+    - CandidatoId: Guid
+    - ValorTexto: string
+    - ValorNumerico: double
+    - DataResposta: DateTime
+  }
+  class Pesquisador {
+    - Id: Guid
+    - Nome: string
+    - Email: string
+    - Papel: string
+  }
+  class Candidato {
+    - Id: Guid
+    - Nome: string
+    - Partido: string
+    - Numero: string
+    - Biografia: string
+  }
+  class Indicador {
+    - Id: Guid
+    - Nome: string
+    - Formula: string
+    - Valor: double
+    + Calcular(p: Pesquisa)
+  }
+}
+
+ProjetoPesquisa "1" -- "0..*" Pesquisa : contém
+Pesquisador "1" -- "0..*" Pesquisa : responsável por
+Pesquisa "1" -- "1" Questionario : utiliza
+Questionario "1" -- "0..*" Pergunta : contém
+Pergunta "1" -- "0..*" OpcaoResposta : tem
+Pesquisa "1" -- "0..*" Eleitor : alvo
+Eleitor "1" -- "0..*" Resposta : fornece
+Pergunta "1" -- "0..*" Resposta : recebe
+Pesquisa "1" -- "0..*" Indicador : gera
+Pesquisa "1" -- "0..*" Candidato : tem candidatos
+Candidato "1" -- "0..*" Resposta : recebe votos
+
+note right of Resposta
+  Uma Resposta liga um Eleitor a uma Pergunta e pode referenciar um Candidato.
+  Para pesquisas eleitorais, Resposta indica intenção de voto (Candidato).
+end note
+
+' Observações:
+' - Este é um modelo inicial — adapte atributos e métodos conforme as regras de negócio.
+' - Quer que eu converta este modelo para classes C# ou gere testes de unidade?
+
+@enduml

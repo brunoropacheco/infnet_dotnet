@@ -1,0 +1,350 @@
+{
+	"info": {
+		"_postman_id": "b5f8c6a1-1234-4567-8901-abcdef123456",
+		"name": "Infnet PesqMgm API v2",
+		"description": "Coleção para testar a API de Gestão de Pesquisas (PesqMgm).",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Criar Usuario",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"if (jsonData.id) {",
+							"    pm.collectionVariables.set(\"gestorId\", jsonData.id);",
+							"    console.log(\"Gestor ID salvo: \" + jsonData.id);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"nome\": \"Gestor Principal\",\n  \"email\": \"gestor@infnet.edu.br\",\n  \"perfil\": \"Gestor\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/Usuarios",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"Usuarios"
+					]
+				},
+				"description": "Cria um usuário com perfil de Gestor. O ID retornado é salvo automaticamente na variável `gestorId`."
+			},
+			"response": []
+		},
+		{
+			"name": "2. Criar Pesquisa",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"if (jsonData.id) {",
+							"    pm.collectionVariables.set(\"pesquisaId\", jsonData.id);",
+							"    console.log(\"Pesquisa ID salva: \" + jsonData.id);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"titulo\": \"Eleição Representante de Turma 2025\",\n  \"descricao\": \"Votação para escolher o representante da turma de Arquitetura .NET\",\n  \"gestorId\": \"{{gestorId}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/Pesquisas",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"Pesquisas"
+					]
+				},
+				"description": "Cria uma nova pesquisa vinculada ao Gestor criado anteriormente."
+			},
+			"response": []
+		},
+		{
+			"name": "3. Adicionar Pergunta",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"texto\": \"Qual candidato você escolhe?\",\n  \"opcoes\": [\n    \"Candidato A\",\n    \"Candidato B\",\n    \"Branco\",\n    \"Nulo\"\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/Pesquisas/{{pesquisaId}}/perguntas",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"Pesquisas",
+						"{{pesquisaId}}",
+						"perguntas"
+					]
+				},
+				"description": "Adiciona uma pergunta com opções à pesquisa."
+			},
+			"response": []
+		},
+		{
+			"name": "4. Publicar Pesquisa",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/Pesquisas/{{pesquisaId}}/publicar",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"Pesquisas",
+						"{{pesquisaId}}",
+						"publicar"
+					]
+				},
+				"description": "Altera o status da pesquisa para Ativa, permitindo a participação."
+			},
+			"response": []
+		},
+		{
+			"name": "5. Listar Todas as Pesquisas",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/Pesquisas",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"Pesquisas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "6. Obter Pesquisa por ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/Pesquisas/{{pesquisaId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"Pesquisas",
+						"{{pesquisaId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "7. Adicionar Resposta",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"escolhas\": [\n    \"Candidato A\"\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/Pesquisas/{{pesquisaId}}/respostas",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"Pesquisas",
+						"{{pesquisaId}}",
+						"respostas"
+					]
+				},
+				"description": "Registra uma resposta para a pesquisa."
+			},
+			"response": []
+		},
+		{
+			"name": "8. Encerrar Pesquisa",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/Pesquisas/{{pesquisaId}}/encerrar",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"Pesquisas",
+						"{{pesquisaId}}",
+						"encerrar"
+					]
+				},
+				"description": "Encerra a pesquisa, impedindo novas respostas."
+			},
+			"response": []
+		},
+		{
+			"name": "9. Gerar Resultado",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"leitoresIds\": [\n    \"{{gestorId}}\"\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/Pesquisas/{{pesquisaId}}/resultado",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"Pesquisas",
+						"{{pesquisaId}}",
+						"resultado"
+					]
+				},
+				"description": "Gera o relatório sumarizado da pesquisa e define quem pode visualizá-lo."
+			},
+			"response": []
+		},
+		{
+			"name": "10. Atualizar Pesquisa",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"titulo\": \"Pesquisa Atualizada\",\n  \"descricao\": \"Descrição atualizada\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/Pesquisas/{{pesquisaId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"Pesquisas",
+						"{{pesquisaId}}"
+					]
+				},
+				"description": "Atualiza os dados da pesquisa."
+			},
+			"response": []
+		},
+		{
+			"name": "11. Listar Usuarios",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/Usuarios",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"Usuarios"
+					]
+				},
+				"description": "Lista todos os usuários."
+			},
+			"response": []
+		},
+		{
+			"name": "12. Listar Resultados",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/Pesquisas/{{pesquisaId}}/resultado",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"Pesquisas",
+						"{{pesquisaId}}",
+						"resultado"
+					]
+				},
+				"description": "Obtém o resultado sumarizado da pesquisa."
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:5163",
+			"type": "string"
+		},
+		{
+			"key": "gestorId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "pesquisaId",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

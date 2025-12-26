@@ -1,0 +1,16 @@
+/workspaces/infnet_dotnet/src/Infnet.PesqMgm.Domain.Tests/bin/Debug/net9.0/Infnet.PesqMgm.Domain.Tests.deps.json
+/workspaces/infnet_dotnet/src/Infnet.PesqMgm.Domain.Tests/bin/Debug/net9.0/Infnet.PesqMgm.Domain.Tests.dll
+/workspaces/infnet_dotnet/src/Infnet.PesqMgm.Domain.Tests/bin/Debug/net9.0/Infnet.PesqMgm.Domain.Tests.pdb
+/workspaces/infnet_dotnet/src/Infnet.PesqMgm.Domain.Tests/bin/Debug/net9.0/Infnet.PesqMgm.Domain.dll
+/workspaces/infnet_dotnet/src/Infnet.PesqMgm.Domain.Tests/bin/Debug/net9.0/Infnet.PesqMgm.Domain.pdb
+/workspaces/infnet_dotnet/src/Infnet.PesqMgm.Domain.Tests/obj/Debug/net9.0/Infnet.PesqMgm.Domain.Tests.csproj.AssemblyReference.cache
+/workspaces/infnet_dotnet/src/Infnet.PesqMgm.Domain.Tests/obj/Debug/net9.0/Infnet.PesqMgm.Domain.Tests.GeneratedMSBuildEditorConfig.editorconfig
+/workspaces/infnet_dotnet/src/Infnet.PesqMgm.Domain.Tests/obj/Debug/net9.0/Infnet.PesqMgm.Domain.Tests.AssemblyInfoInputs.cache
+/workspaces/infnet_dotnet/src/Infnet.PesqMgm.Domain.Tests/obj/Debug/net9.0/Infnet.PesqMgm.Domain.Tests.AssemblyInfo.cs
+/workspaces/infnet_dotnet/src/Infnet.PesqMgm.Domain.Tests/obj/Debug/net9.0/Infnet.PesqMgm.Domain.Tests.csproj.CoreCompileInputs.cache
+/workspaces/infnet_dotnet/src/Infnet.PesqMgm.Domain.Tests/obj/Debug/net9.0/Infnet.PesqMgm.Domain.Tests.sourcelink.json
+/workspaces/infnet_dotnet/src/Infnet.PesqMgm.Domain.Tests/obj/Debug/net9.0/Infnet.P.BD18506F.Up2Date
+/workspaces/infnet_dotnet/src/Infnet.PesqMgm.Domain.Tests/obj/Debug/net9.0/Infnet.PesqMgm.Domain.Tests.dll
+/workspaces/infnet_dotnet/src/Infnet.PesqMgm.Domain.Tests/obj/Debug/net9.0/refint/Infnet.PesqMgm.Domain.Tests.dll
+/workspaces/infnet_dotnet/src/Infnet.PesqMgm.Domain.Tests/obj/Debug/net9.0/Infnet.PesqMgm.Domain.Tests.pdb
+/workspaces/infnet_dotnet/src/Infnet.PesqMgm.Domain.Tests/obj/Debug/net9.0/ref/Infnet.PesqMgm.Domain.Tests.dll
