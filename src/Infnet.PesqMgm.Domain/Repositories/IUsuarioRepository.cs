@@ -13,7 +13,7 @@ public interface IUsuarioRepository
     
     Task Delete(Guid id);
     
-    Task<Usuario> GetById(Guid id);
+    Task<Usuario?> GetById(Guid id);
     
     Task<List<Usuario>> GetAll();
     

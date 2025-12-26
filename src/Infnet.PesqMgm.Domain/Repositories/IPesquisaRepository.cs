@@ -13,7 +13,7 @@ public interface IPesquisaRepository
     
     Task Delete(Guid id);
     
-    Task<Pesquisa> GetById(Guid id);
+    Task<Pesquisa?> GetById(Guid id);
     
     Task<List<Pesquisa>> GetAll();
     

@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Infnet.PesqMgm.Domain.Pesquisas;
 using Infnet.PesqMgm.Domain.Repositories;
+using Infnet.PesqMgm.Infrastructure.Data;
 using Infnet.PesqMgm.Domain.Shared;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infnet.PesqMgm.Infrastructure.Data.Repositories;
 
-public class SqlServerUsuarioRepository : IUsuarioRepository
+public class InMemoryUsuarioRepository : IUsuarioRepository
 {
     private readonly PesquisaDbContext _context;
 
-    public SqlServerUsuarioRepository(PesquisaDbContext context)
+    public InMemoryUsuarioRepository(PesquisaDbContext context)
     {
         _context = context;
     }

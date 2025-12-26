@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="../Infnet.PesqMgm.Infrastructure.Data/Infnet.PesqMgm.Infrastructure.Data.csproj" />
     <ProjectReference Include="..\Infnet.PesqMgm.Domain\Infnet.PesqMgm.Domain.csproj" />
   </ItemGroup>
 

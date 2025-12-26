@@ -3,6 +3,7 @@ using Infnet.PesqMgm.Domain.Pesquisas;
 using Infnet.PesqMgm.Api.Dtos;
 using Infnet.PesqMgm.Domain.Repositories;
 using Infnet.PesqMgm.Domain.Shared;
+using Infnet.PesqMgm.Infrastructure.Data.Repositories;
 
 namespace Infnet.PesqMgm.Api.Controllers;
 
@@ -47,7 +48,7 @@ public class PesquisasController : ControllerBase
         
         try
         {
-            var gestor = await _usuarioRepository.ObterPorIdAsync(request.GestorId);
+            var gestor = await _usuarioRepository.GetById(request.GestorId);
             
             if (gestor == null)
             {
@@ -211,6 +212,150 @@ public class PesquisasController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError, new { message = "Ocorreu um erro interno." });
         }
     }
+
+    [HttpPost("{id:guid}/respostas")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> AdicionarResposta(Guid id, [FromBody] AdicionarRespostaRequest request)
+    {
+        if (!ModelState.IsValid) return BadRequest(ModelState);
+
+        try
+        {
+            var pesquisa = await _pesquisaRepository.GetById(id);
+            if (pesquisa == null) return NotFound(new { message = $"Pesquisa com ID {id} não encontrada." });
+
+            var resposta = Resposta.Criar(pesquisa, request.Escolhas);
+            pesquisa.AdicionarResposta(resposta);
+
+            await _pesquisaRepository.Update(pesquisa);
+            await _pesquisaRepository.SaveChangesAsync();
+
+            return Ok(new { message = "Resposta registrada com sucesso." });
+        }
+        catch (DomainException ex)
+        {
+            _logger.LogWarning(ex, "Erro de domínio ao adicionar resposta: {Message}", ex.Message);
+            return BadRequest(new { message = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro interno ao adicionar resposta.");
+            return StatusCode(StatusCodes.Status500InternalServerError, new { message = "Ocorreu um erro interno." });
+        }
+    }
+
+    [HttpPost("{id:guid}/encerrar")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> EncerrarPesquisa(Guid id)
+    {
+        try
+        {
+            var pesquisa = await _pesquisaRepository.GetById(id);
+            if (pesquisa == null) return NotFound(new { message = $"Pesquisa com ID {id} não encontrada." });
+
+            pesquisa.Encerrar();
+
+            await _pesquisaRepository.Update(pesquisa);
+            await _pesquisaRepository.SaveChangesAsync();
+
+            return Ok(MapToPesquisaResponse(pesquisa));
+        }
+        catch (DomainException ex)
+        {
+            _logger.LogWarning(ex, "Erro de domínio ao encerrar pesquisa: {Message}", ex.Message);
+            return BadRequest(new { message = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro interno ao encerrar pesquisa.");
+            return StatusCode(StatusCodes.Status500InternalServerError, new { message = "Ocorreu um erro interno." });
+        }
+    }
+
+    [HttpPost("{id:guid}/resultado")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GerarResultado(Guid id, [FromBody] GerarResultadoRequest request)
+    {
+        try
+        {
+            var pesquisa = await _pesquisaRepository.GetById(id);
+            if (pesquisa == null) return NotFound(new { message = $"Pesquisa com ID {id} não encontrada." });
+
+            var leitores = new List<Usuario>();
+            if (request.LeitoresIds != null)
+            {
+                foreach (var leitorId in request.LeitoresIds)
+                {
+                    var leitor = await _usuarioRepository.GetById(leitorId);
+                    if (leitor != null) leitores.Add(leitor);
+                }
+            }
+
+            pesquisa.GerarResultado(leitores);
+
+            await _pesquisaRepository.Update(pesquisa);
+            await _pesquisaRepository.SaveChangesAsync();
+
+            var resultado = pesquisa.ResultadoSumarizado;
+            var response = new ResultadoSumarizadoResponse(
+                pesquisa.Id,
+                resultado!.DataApuracao,
+                resultado.ContagemVotos,
+                resultado.Leitores.Select(l => l.Nome).ToList()
+            );
+
+            return Ok(response);
+        }
+        catch (DomainException ex)
+        {
+            _logger.LogWarning(ex, "Erro de domínio ao gerar resultado: {Message}", ex.Message);
+            return BadRequest(new { message = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro interno ao gerar resultado.");
+            return StatusCode(StatusCodes.Status500InternalServerError, new { message = "Ocorreu um erro interno." });
+        }
+    }
+
+    [HttpGet("{id:guid}/resultado")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> GetResultado(Guid id)
+    {
+        try
+        {
+            var pesquisa = await _pesquisaRepository.GetById(id);
+            if (pesquisa == null) return NotFound(new { message = $"Pesquisa com ID {id} não encontrada." });
+
+            if (pesquisa.ResultadoSumarizado == null)
+            {
+                return NotFound(new { message = "O resultado desta pesquisa ainda não foi gerado." });
+            }
+
+            var resultado = pesquisa.ResultadoSumarizado;
+            var response = new ResultadoSumarizadoResponse(
+                pesquisa.Id,
+                resultado.DataApuracao,
+                resultado.ContagemVotos,
+                resultado.Leitores.Select(l => l.Nome).ToList()
+            );
+
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro interno ao obter resultado da pesquisa {Id}.", id);
+            return StatusCode(StatusCodes.Status500InternalServerError, new { message = "Ocorreu um erro interno." });
+        }
+    }
 }
 
 // DTO atualizado para receber o ID do Gestor em vez dos dados de criação
@@ -219,10 +364,6 @@ public record UpdatePesquisaRequest(string Titulo, string Descricao);
 public record AdicionarPerguntaRequest(string Texto, List<string> Opcoes);
 public record PesquisaResponse(Guid Id, string Titulo, string Descricao, Guid GestorId, string Status, List<PerguntaResponse> Perguntas, DateTime CreatedAt);
 public record PerguntaResponse(string Texto, List<string> Opcoes);
-
-// Interface do Repositório (Deveria estar na camada de Domain, definida aqui para compilação do exemplo)
-public interface IUsuarioRepository
-{
-    Task<Usuario?> ObterPorIdAsync(Guid id);
-    void Adicionar(Usuario usuario);
-}
+public record AdicionarRespostaRequest(List<string> Escolhas);
+public record GerarResultadoRequest(List<Guid> LeitoresIds);
+public record ResultadoSumarizadoResponse(Guid PesquisaId, DateTime DataApuracao, IReadOnlyDictionary<string, Dictionary<string, int>> Votos, List<string> Leitores);

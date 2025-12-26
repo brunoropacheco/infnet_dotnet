@@ -1,10 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Infnet.PesqMgm.Domain.Pesquisas;
+using Infnet.PesqMgm.Domain.Repositories;
+using Infnet.PesqMgm.Api.Dtos;
+using Infnet.PesqMgm.Infrastructure.Data.Repositories;
 
 namespace Infnet.PesqMgm.Api.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class UsuariosController : ControllerBase
 {
     private readonly ILogger<UsuariosController> _logger;
@@ -18,7 +21,7 @@ public class UsuariosController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult CriarUsuario([FromBody] CriarUsuarioRequest request)
+    public async Task<IActionResult> CriarUsuario([FromBody] CriarUsuarioRequest request)
     {
         if (!ModelState.IsValid)
         {
@@ -28,13 +31,27 @@ public class UsuariosController : ControllerBase
         // Cria o usuário (Gestor) isoladamente
         var usuario = Usuario.Criar(request.Nome, request.Email, request.Perfil);
         
-        _usuarioRepository.Adicionar(usuario);
-        // _usuarioRepository.Commit(); // Em um caso real, persistiríamos aqui
+        await _usuarioRepository.Add(usuario);
+        await _usuarioRepository.SaveChangesAsync();
 
         _logger.LogInformation("Usuário {Id} criado com sucesso.", usuario.Id);
 
         return Ok(new { id = usuario.Id, message = "Usuário criado com sucesso" });
     }
-}
 
-public record CriarUsuarioRequest(string Nome, string Email, PerfilUsuario Perfil);
+    [HttpGet]
+    public async Task<IActionResult> GetAllUsuarios()
+    {
+        try
+        {
+            var usuarios = await _usuarioRepository.GetAll();
+            var response = usuarios.Select(u => new { u.Id, u.Nome, u.Email, u.Perfil });
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao listar usuários.");
+            return StatusCode(StatusCodes.Status500InternalServerError, new { message = "Ocorreu um erro interno." });
+        }
+    }
+}

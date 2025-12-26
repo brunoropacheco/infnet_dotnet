@@ -1,13 +1,13 @@
 {
 	"info": {
 		"_postman_id": "b5f8c6a1-1234-4567-8901-abcdef123456",
-		"name": "Infnet PesqMgm API",
+		"name": "Infnet PesqMgm API v2",
 		"description": "Coleção para testar a API de Gestão de Pesquisas (PesqMgm).",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "1. Criar Gestor (Usuario)",
+			"name": "1. Criar Usuario",
 			"event": [
 				{
 					"listen": "test",
@@ -28,7 +28,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"nome\": \"Gestor Principal\",\n  \"email\": \"gestor@infnet.edu.br\",\n  \"perfil\": 1\n}",
+					"raw": "{\n  \"nome\": \"Gestor Principal\",\n  \"email\": \"gestor@infnet.edu.br\",\n  \"perfil\": \"Gestor\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -36,7 +36,7 @@
 					}
 				},
 				"url": {
-					"raw": "{{baseUrl}}/Usuarios",
+					"raw": "{{baseUrl}}/api/Usuarios",
 					"host": [
 						"{{baseUrl}}"
 					],
@@ -178,12 +178,162 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "7. Adicionar Resposta",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"escolhas\": [\n    \"Candidato A\"\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/Pesquisas/{{pesquisaId}}/respostas",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"Pesquisas",
+						"{{pesquisaId}}",
+						"respostas"
+					]
+				},
+				"description": "Registra uma resposta para a pesquisa."
+			},
+			"response": []
+		},
+		{
+			"name": "8. Encerrar Pesquisa",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/Pesquisas/{{pesquisaId}}/encerrar",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"Pesquisas",
+						"{{pesquisaId}}",
+						"encerrar"
+					]
+				},
+				"description": "Encerra a pesquisa, impedindo novas respostas."
+			},
+			"response": []
+		},
+		{
+			"name": "9. Gerar Resultado",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"leitoresIds\": [\n    \"{{gestorId}}\"\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/Pesquisas/{{pesquisaId}}/resultado",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"Pesquisas",
+						"{{pesquisaId}}",
+						"resultado"
+					]
+				},
+				"description": "Gera o relatório sumarizado da pesquisa e define quem pode visualizá-lo."
+			},
+			"response": []
+		},
+		{
+			"name": "10. Atualizar Pesquisa",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"titulo\": \"Pesquisa Atualizada\",\n  \"descricao\": \"Descrição atualizada\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/Pesquisas/{{pesquisaId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"Pesquisas",
+						"{{pesquisaId}}"
+					]
+				},
+				"description": "Atualiza os dados da pesquisa."
+			},
+			"response": []
+		},
+		{
+			"name": "11. Listar Usuarios",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/Usuarios",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"Usuarios"
+					]
+				},
+				"description": "Lista todos os usuários."
+			},
+			"response": []
+		},
+		{
+			"name": "12. Listar Resultados",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/Pesquisas/{{pesquisaId}}/resultado",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"Pesquisas",
+						"{{pesquisaId}}",
+						"resultado"
+					]
+				},
+				"description": "Obtém o resultado sumarizado da pesquisa."
+			},
+			"response": []
 		}
 	],
 	"variable": [
 		{
 			"key": "baseUrl",
-			"value": "http://localhost:5000",
+			"value": "http://localhost:5163/api",
 			"type": "string"
 		},
 		{

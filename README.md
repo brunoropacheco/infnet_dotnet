@@ -11,6 +11,8 @@ Repositório para o trabalho de arquitetura .NET do curso de pós graduação do
 
   O eleitor responde às perguntas e registra suas **Respostas**. As **Respostas** contem as escolhas do eleitor. Como é um sistema de votação em eleições, sempre haverá perguntas sobre as opções de voto do eleitor, perguntando se votará em algum candidato, se irá a eleição, ou votará branco ou nulo, etc.
 
+  Todas as perguntas devem ser respondidas de uma vez na API.
+
   As respostas registradas são então submetidas ao processo de **Apuração**, que valida as entradas, aplica regras de negócio (por exemplo, checagem de duplicidade) e consolida os resultados.
 
   Os **Resultados Sumarizados** são gerados ao final da pesquisa quando ela for encerrada (isso precisa ser acionado) e precisamos dizer quais usuarios terao acesso a este resultado.
@@ -31,6 +33,8 @@ Repositório para o trabalho de arquitetura .NET do curso de pós graduação do
 
 Nosso objetivo é entregar um sistema desenvolvido com ASP.NET Core 9, seguindo os princípios do Domain-Driven Design (DDD). Ele oferece uma API RESTful para realizar operações CRUD (Create, Read, Update, Delete) para as pesquisas.
 
+**Nota:** O escopo deste projeto concentra-se exclusivamente no **Backend (API)**. Não há desenvolvimento de interface gráfica (Frontend) acoplada, sendo a API projetada para ser consumida por qualquer cliente HTTP (Web, Mobile, etc.).
+
 ## 4. Diagrama de Classes
 
 Após a modelagem realizada, este é o uml com as principais classes do sistema:
@@ -47,7 +51,7 @@ Foco: Modelar o problema de negócio de forma rica e expressiva.
 ### 2. PesqMgm.Infrastructure (Camada de Infraestrutura)
 Responsável pela persistência de dados e outras preocupações técnicas.
 Implementa as interfaces de repositório definidas na camada de Domínio.
-Utiliza Entity Framework Core para interagir com o banco de dados (SQL Server LocalDB).
+Utiliza Entity Framework Core para interagir com o banco de dados (InMemory Database).
 Contém configurações de mapeamento de entidades para o banco de dados.
 Add-Migration Initial -Context PesquisasDbContext -Project PesqMgm.Infrastructure.Data -StartupProject PesqMgm.Api
 
@@ -69,12 +73,51 @@ Contém testes unitários para a implementação do repositório, garantindo que
 ### 5. PesqMgm.Domain.Tests (Camada de Testes de Domínio)
 Contém testes unitários para as entidades e Value Objects do domínio, garantindo que a lógica de negócio esteja correta e robusta.
 
-## 6. Padrões de Projeto Utilizados
-Domain-Driven Design (DDD): Foco na modelagem do domínio de negócio, com linguagem ubíqua e conceitos de Aggregate Roots, Value Objects e Repositories. Pode ser visto no projeto de domínio existente na solução.
-Repository Pattern: Abstrai a lógica de persistência de dados, permitindo que a camada de domínio trabalhe com coleções de objetos sem se preocupar com os detalhes do armazenamento.
-Factory Pattern: Utilizado nos métodos Create dos Value Objects e Aggregate Roots para encapsular a lógica de criação e validação, garantindo que os objetos sejam sempre criados em um estado válido.
-Value Object Pattern: Objetos que representam um conceito descritivo no domínio, definidos pela sua composição de atributos e comparados por valor, não por identidade. São imutáveis.
-Aggregate Root Pattern: Entidades que são a raiz de um cluster de objetos (Aggregate), garantindo a consistência transacional dentro do agregado. Todas as operações externas devem passar pela Aggregate Root.
-Dependency Injection (DI): Utilizado para gerenciar as dependências entre as camadas e componentes, promovendo o baixo acoplamento e a testabilidade.
-Fluent API (EF Core): Usada para configurar o mapeamento objeto-relacional no Entity Framework Core, permitindo mapear Value Objects complexos para o banco de dados.
-RESTful API: A camada de API segue os princípios REST para comunicação entre cliente e servidor, utilizando verbos HTTP e URLs semânticas.
+## 6. Componentes .NET e Justificativas
+
+Para atender aos requisitos de robustez, escalabilidade e manutenibilidade, a solução foi construída sobre a plataforma **.NET 9**, utilizando os seguintes componentes fundamentais:
+
+*   **ASP.NET Core Web API**: Escolhido para o desenvolvimento do Backend devido à sua alta performance, suporte nativo a injeção de dependência e facilidade na criação de serviços RESTful. Ele garante o funcionamento da solução através do pipeline de middlewares (tratamento de erros, roteamento, validação).
+*   **Entity Framework Core (EF Core)**: Escolhido como ORM (Object-Relational Mapper) para abstrair o acesso a dados. Sua escolha se justifica pela produtividade (LINQ), suporte a Migrations para versionamento do banco de dados e capacidade de mapear objetos complexos de domínio (Value Objects) para o modelo relacional.
+*   **InMemory Database**: Banco de dados em memória utilizado para simplificar o a implementação conforme alinhado com o demandante do projeto, permitindo validação rápida da lógica de negócio sem a necessidade de infraestrutura externa complexa.
+*   **xUnit**: Framework de testes escolhido para garantir a qualidade do código através de testes unitários automatizados nas camadas de Domínio e Infraestrutura.
+
+A arquitetura garante o funcionamento da solução isolando a complexidade de negócio na camada de Domínio, enquanto o ASP.NET Core gerencia a exposição dos serviços e o EF Core gerencia a persistência, tudo acoplado via Injeção de Dependência.
+
+## 7. Estratégia de Frontend e Integração
+
+Embora o escopo deste projeto seja focado no **Backend (API)**, a arquitetura foi desenhada seguindo o modelo **API-First**, preparando o sistema para integração com qualquer frontend (Web, Mobile, Desktop).
+
+*   **Componente de "Frontend" Atual**: Para fins de validação e interação imediata com os stakeholders e desenvolvedores, utilizamos o **Swagger (OpenAPI)** e **Postman**. Eles atuam como a interface cliente, permitindo testar e visualizar os fluxos de negócio.
+*   **Protocolo de Comunicação**: A integração entre o Backend e qualquer futuro Frontend ocorre via **HTTP/HTTPS**, utilizando o padrão **REST** e troca de mensagens em formato **JSON**.
+*   **Justificativa da Abordagem**: A escolha de não acoplar um frontend específico (Razor/Blazor) neste momento e focar na API RESTful permite que o sistema seja consumido por múltiplas interfaces diferentes no futuro (ex: App Mobile para eleitores, Dashboard Web para gestores), garantindo flexibilidade e desacoplamento.
+
+## 8. Estratégia de Testes
+
+A solução demonstra a testabilidade dos componentes em diferentes níveis:
+
+1.  **Testes de Unidade (xUnit)**: Localizados nos projetos `PesqMgm.Domain.Tests` e `PesqMgm.Infrastructure.Tests`. Validam regras de negócio (ex: validação de voto, criação de pesquisa) e lógica de mapeamento de dados isoladamente.
+2.  **Testes de Integração/API (Postman)**: A collection do Postman (`docs/Infnet_PesqMgm.postman_collection.json`) serve para testar o componente Web (API) como um todo, simulando fluxos reais de uso (Criar Gestor -> Criar Pesquisa -> Votar -> Apurar).
+3.  **Testabilidade do Acesso a Dados**: O uso do padrão Repository permite que a persistência seja testada com bancos em memória ou mocks, garantindo que o EF Core esteja configurado corretamente sem depender do banco de produção.
+
+## 9. Padrões de Projeto Utilizados
+*   **Domain-Driven Design (DDD)**: Foco na modelagem do domínio de negócio, com linguagem ubíqua e conceitos de Aggregate Roots, Value Objects e Repositories.
+    *   *Exemplo*: Estrutura da solução dividida em `Infnet.PesqMgm.Domain` (regras puras) e `Infnet.PesqMgm.Infrastructure`.
+*   **Repository Pattern**: Abstrai a lógica de persistência de dados, permitindo que a camada de domínio trabalhe com coleções de objetos sem se preocupar com os detalhes do armazenamento.
+    *   *Exemplo*: Interface `IPesquisaRepository.cs` no Domínio e implementação `InMemoryPesquisaRepository.cs` na Infraestrutura.
+*   **Factory Pattern**: Utilizado nos métodos estáticos de criação para encapsular a lógica de validação e garantir que os objetos sejam instanciados em um estado válido.
+    *   *Exemplo*: Método `Pesquisa.Criar(...)` na classe `Pesquisa.cs`.
+*   **Value Object Pattern**: Objetos que representam um conceito descritivo, definidos pela sua composição de atributos e imutabilidade.
+    *   *Exemplo*: Classes `Pergunta` e `Resposta`, mapeadas como `OwnsMany` no `PesquisaDbContext.cs`.
+*   **Aggregate Root Pattern**: Entidades que são a raiz de um cluster de objetos, garantindo a consistência transacional.
+    *   *Exemplo*: A classe `Pesquisa.cs` controla o acesso às listas de `Perguntas` e `Respostas`, impedindo modificações diretas externas.
+*   **Dependency Injection (DI)**: Utilizado para gerenciar as dependências entre as camadas e componentes.
+    *   *Exemplo*: Configuração em `Program.cs` (`builder.Services.AddScoped...`) e injeção via construtor no `PesquisasController.cs`.
+*   **Fluent API (EF Core)**: Usada para configurar o mapeamento objeto-relacional de forma programática.
+    *   *Exemplo*: Método `OnModelCreating` em `PesquisaDbContext.cs` configurando chaves e relacionamentos complexos.
+*   **RESTful API**: A camada de apresentação segue os princípios REST para comunicação.
+    *   *Exemplo*: `PesquisasController.cs` utilizando verbos HTTP (`[HttpGet]`, `[HttpPost]`) e DTOs para transferência de dados.
+
+## 10. Documentação da API
+
+A API foi documentada com a collection do Postman que está na pasta docs do repositório (docs/Infnet_PesqMgm.postman_collection.json). Definimos endpoints que cobrem as ações de negócio que serão feitas por uma futura camada de apresentação para o cliente final.
