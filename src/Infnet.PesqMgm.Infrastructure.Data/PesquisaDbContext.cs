@@ -1,5 +1,6 @@
 using Infnet.PesqMgm.Domain.Pesquisas;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 
 namespace Infnet.PesqMgm.Infrastructure.Data;
 
@@ -11,7 +12,6 @@ public class PesquisaDbContext : DbContext
 
     public DbSet<Pesquisa> Pesquisas { get; set; }
     public DbSet<Usuario> Usuarios { get; set; }
-    // Respostas e Resultados podem ser adicionados aqui posteriormente
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -34,32 +34,65 @@ public class PesquisaDbContext : DbContext
         });
 
         // Mapeamento de Pesquisa
-        modelBuilder.Entity<Pesquisa>(entity =>
+        modelBuilder.Entity<Pesquisa>(e =>
         {
-            entity.ToTable("Pesquisas");
-            
-            entity.Property<Guid>("Id").ValueGeneratedOnAdd();
-            entity.HasKey("Id");
-
-            entity.Property(p => p.Titulo).IsRequired().HasMaxLength(200);
-            entity.Property(p => p.Descricao).HasMaxLength(1000);
-            entity.Property(p => p.Status).HasConversion<string>();
-
-            // Relacionamento com Gestor
-            entity.HasOne(p => p.Gestor).WithMany().IsRequired();
-
-            // Mapeamento de Perguntas (Owned Entity - parte da Pesquisa)
-            entity.OwnsMany(p => p.Perguntas, pergunta =>
+            e.HasKey(e => e.Id);
+            e.OwnsMany(e => e.Perguntas, p =>
             {
-                pergunta.ToTable("Perguntas");
-                pergunta.Property<Guid>("Id").ValueGeneratedOnAdd();
-                pergunta.HasKey("Id");
+                p.ToTable("Perguntas");
+                p.Property<Guid>("Id").ValueGeneratedOnAdd();
+                p.HasKey("Id");
+                p.Property(x => x.Texto).IsRequired();
                 
-                pergunta.Property(p => p.Texto).IsRequired();
-
-                // Mapeamento da lista de strings (Opcoes) para JSON ou tabela separada (EF Core 8+)
-                pergunta.PrimitiveCollection(p => p.Opcoes);
+                // Mapeia a lista de strings para JSON
+                p.Property(x => x.Opcoes).HasConversion(
+                    v => JsonSerializer.Serialize(v, (JsonSerializerOptions?)null),
+                    v => JsonSerializer.Deserialize<List<string>>(v, (JsonSerializerOptions?)null) ?? new List<string>()
+                );
             });
+
+            e.OwnsMany(e => e.Respostas, r =>
+            {
+                r.ToTable("Respostas");
+                r.WithOwner(x => x.Pesquisa);
+                r.Property<Guid>("Id").ValueGeneratedOnAdd();
+                r.HasKey("Id");
+
+                r.OwnsMany(x => x.Itens, i =>
+                {
+                    i.ToTable("RespostaItens");
+                    i.WithOwner().HasForeignKey("RespostaId");
+                    i.Property<Guid>("Id").ValueGeneratedOnAdd();
+                    i.HasKey("Id");
+                    i.Property(x => x.OpcaoSelecionada);
+                });
+            });
+
+            e.HasOne(e => e.Gestor);
+            e.Property(e => e.Status).HasConversion<string>();
+
+            // Alterado de OwnsOne para HasOne para permitir relacionamento N:N
+            e.HasOne(e => e.ResultadoSumarizado)
+                .WithOne(r => r.Pesquisa)
+                .HasForeignKey<ResultadoSumarizado>("PesquisaId");
+        });
+
+        // Mapeamento de ResultadoSumarizado como Entidade
+        modelBuilder.Entity<ResultadoSumarizado>(r =>
+        {
+            r.ToTable("ResultadosSumarizados");
+            r.Property<Guid>("PesquisaId");
+            r.HasKey("PesquisaId"); // PK é a mesma FK da Pesquisa (1:1)
+
+            r.Property(x => x.DataApuracao);
+            r.Property(x => x.ContagemVotos).HasConversion(
+                v => JsonSerializer.Serialize(v, (JsonSerializerOptions?)null),
+                v => JsonSerializer.Deserialize<Dictionary<string, Dictionary<string, int>>>(v, (JsonSerializerOptions?)null) ?? new Dictionary<string, Dictionary<string, int>>()
+            );
+
+            r.HasMany(x => x.Leitores)
+                .WithMany()
+                .UsingEntity("ResultadoLeitores");
         });
     }
 }

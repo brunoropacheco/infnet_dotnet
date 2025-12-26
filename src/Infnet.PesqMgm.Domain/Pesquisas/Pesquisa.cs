@@ -13,10 +13,24 @@ public class Pesquisa : Entity
     private readonly List<Pergunta> _perguntas;
     public IReadOnlyList<Pergunta> Perguntas => _perguntas.AsReadOnly();
     
+    private readonly List<Resposta> _respostas;
+    public IReadOnlyList<Resposta> Respostas => _respostas.AsReadOnly();
+
     public Usuario Gestor { get; private set; }
     public PesquisaStatus Status { get; private set; }
+    public ResultadoSumarizado? ResultadoSumarizado { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
+
+    // Construtor vazio para o EF Core
+    private Pesquisa()
+    {
+        Titulo = string.Empty;
+        Descricao = string.Empty;
+        Gestor = null!; 
+        _perguntas = [];
+        _respostas = [];
+    }
 
     private Pesquisa(string titulo, string descricao, Usuario gestor)
     {
@@ -25,6 +39,7 @@ public class Pesquisa : Entity
         Gestor = gestor;
         Status = PesquisaStatus.Rascunho;
         _perguntas = [];
+        _respostas = [];
         CreatedAt = DateTime.UtcNow;
         UpdatedAt = DateTime.UtcNow;
     }
@@ -56,6 +71,11 @@ public class Pesquisa : Entity
         UpdatedAt = DateTime.UtcNow;
     }
 
+    public void AlterarGestor(Usuario novoGestor)
+    {
+        Gestor = novoGestor ?? throw new DomainException("O novo gestor não pode ser nulo.");
+        UpdatedAt = DateTime.UtcNow;
+    }
     public void AdicionarPergunta(Pergunta pergunta)
     {
         if (pergunta is null)
@@ -72,6 +92,14 @@ public class Pesquisa : Entity
             
         _perguntas.Remove(pergunta);
         UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void AdicionarResposta(Resposta resposta)
+    {
+        if (resposta is null)
+            throw new DomainException("A resposta não pode ser nula.");
+        
+        _respostas.Add(resposta);
     }
 
     public void Publicar()
@@ -92,9 +120,9 @@ public class Pesquisa : Entity
         UpdatedAt = DateTime.UtcNow;
     }
 
-    public void AlterarGestor(Usuario novoGestor)
+    public void GerarResultado(List<Usuario> leitores)
     {
-        Gestor = novoGestor ?? throw new DomainException("O novo gestor não pode ser nulo.");
+        ResultadoSumarizado = ResultadoSumarizado.Criar(this, leitores);
         UpdatedAt = DateTime.UtcNow;
     }
 }

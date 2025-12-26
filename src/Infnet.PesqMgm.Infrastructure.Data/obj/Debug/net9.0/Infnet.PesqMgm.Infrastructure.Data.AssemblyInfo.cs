@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Infnet.PesqMgm.Infrastructure.Data")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8305ee2ea6787cb0ad20ba9d0a5499ef0beff481")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0296f43dabce4436c11eee2c46633d94c735ca79")]
 [assembly: System.Reflection.AssemblyProductAttribute("Infnet.PesqMgm.Infrastructure.Data")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Infnet.PesqMgm.Infrastructure.Data")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -9,6 +9,13 @@ public class Pergunta : ValueObject
     private readonly List<string> _opcoes;
     public IReadOnlyList<string> Opcoes => _opcoes.AsReadOnly();
 
+    // Construtor vazio necessário para o EF Core materializar o objeto
+    private Pergunta() 
+    {
+        Texto = string.Empty;
+        _opcoes = new List<string>();
+    }
+
     private Pergunta(string texto, List<string> opcoes)
     {
         Texto = texto;

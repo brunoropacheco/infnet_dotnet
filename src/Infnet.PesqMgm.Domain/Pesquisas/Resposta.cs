@@ -10,52 +10,57 @@ public class Resposta : ValueObject
     public Pesquisa Pesquisa { get; private set; }
     public DateTime DataHora { get; private set; }
     
-    // Armazena o Texto da Pergunta e a Opção Escolhida
-    private readonly Dictionary<string, string> _escolhas;
-    public IReadOnlyDictionary<string, string> Escolhas => _escolhas;
+    private readonly List<RespostaItem> _itens;
+    public IReadOnlyList<RespostaItem> Itens => _itens.AsReadOnly();
 
-    private Resposta(Pesquisa pesquisa)
+    // Construtor vazio para o EF Core
+    private Resposta()
+    {
+        Pesquisa = null!;
+        _itens = [];
+    }
+
+    private Resposta(Pesquisa pesquisa, List<RespostaItem> itens)
     {
         Pesquisa = pesquisa;
         DataHora = DateTime.UtcNow;
-        _escolhas = [];
+        _itens = itens;
     }
 
-    public static Resposta Criar(Pesquisa pesquisa)
+    public static Resposta Criar(Pesquisa pesquisa, List<string> escolhas)
     {
         if (pesquisa is null)
             throw new DomainException("A pesquisa é obrigatória.");
 
-        return new Resposta(pesquisa);
-    }
+        if (pesquisa.Status != PesquisaStatus.Ativa)
+            throw new DomainException("A pesquisa precisa estar ativa para receber respostas.");
 
-    public void RegistrarEscolha(Pergunta pergunta, string opcaoEscolhida)
-    {
-        if (pergunta is null)
-            throw new DomainException("A pergunta não pode ser nula.");
+        if (escolhas is null || escolhas.Count != pesquisa.Perguntas.Count)
+            throw new DomainException("Todas as perguntas devem ser respondidas.");
 
-        if (string.IsNullOrWhiteSpace(opcaoEscolhida))
-            throw new DomainException("A opção escolhida é inválida.");
+        var itens = new List<RespostaItem>();
 
-        // Valida se a opção existe na pergunta
-        if (!pergunta.Opcoes.Contains(opcaoEscolhida))
-            throw new DomainException($"A opção '{opcaoEscolhida}' não é válida para a pergunta '{pergunta.Texto}'.");
+        for (int i = 0; i < pesquisa.Perguntas.Count; i++)
+        {
+            var pergunta = pesquisa.Perguntas[i];
+            var opcaoEscolhida = escolhas[i];
 
-        // Adiciona ou atualiza a escolha
-        if (_escolhas.ContainsKey(pergunta.Texto))
-            _escolhas[pergunta.Texto] = opcaoEscolhida;
-        else
-            _escolhas.Add(pergunta.Texto, opcaoEscolhida);
+            if (!pergunta.Opcoes.Contains(opcaoEscolhida))
+                throw new DomainException($"A opção '{opcaoEscolhida}' é inválida para a pergunta '{pergunta.Texto}'.");
+
+            itens.Add(new RespostaItem { OpcaoSelecionada = opcaoEscolhida });
+        }
+
+        return new Resposta(pesquisa, itens);
     }
 
     protected override IEnumerable<object> GetEqualityComponents()
     {
         yield return Pesquisa;
         yield return DataHora;
-        foreach (var item in _escolhas.OrderBy(k => k.Key))
+        foreach (var item in _itens)
         {
-            yield return item.Key;
-            yield return item.Value;
+            yield return item;
         }
     }
 }

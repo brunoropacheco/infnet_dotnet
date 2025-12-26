@@ -69,3 +69,4 @@
 /workspaces/infnet_dotnet/src/Infnet.PesqMgm.App/bin/Debug/net9.0/runtimes/win/lib/net6.0/System.Windows.Extensions.dll
 /workspaces/infnet_dotnet/src/Infnet.PesqMgm.App/bin/Debug/net9.0/Infnet.PesqMgm.Infrastructure.Data.dll
 /workspaces/infnet_dotnet/src/Infnet.PesqMgm.App/bin/Debug/net9.0/Infnet.PesqMgm.Infrastructure.Data.pdb
+/workspaces/infnet_dotnet/src/Infnet.PesqMgm.App/bin/Debug/net9.0/Microsoft.EntityFrameworkCore.InMemory.dll
