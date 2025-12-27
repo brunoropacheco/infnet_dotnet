@@ -48,7 +48,7 @@ Coração da aplicação. Contém a lógica de negócios, entidades, Value Objec
 Independente de qualquer tecnologia de infraestrutura ou UI. Não conhece banco de dados, frameworks web, etc.
 Foco: Modelar o problema de negócio de forma rica e expressiva.
 
-### 2. PesqMgm.Infrastructure (Camada de Infraestrutura)
+### 2. PesqMgm.Infrastructure.Data (Camada de Infraestrutura)
 Responsável pela persistência de dados e outras preocupações técnicas.
 Implementa as interfaces de repositório definidas na camada de Domínio.
 Utiliza Entity Framework Core para interagir com o banco de dados (InMemory Database).
@@ -67,11 +67,11 @@ Configura a injeção de dependência e o pipeline da aplicação (middleware) n
 
 Esta camada precisa enxergar todas as camadas da aplicacao (Dominio e Repository neste caso) para fazer a orquestração.
 
-### 4. PesqMgm.Infrastructure.Tests (Camada de Testes de Infraestrutura)
-Contém testes unitários para a implementação do repositório, garantindo que a persistência de dados funcione corretamente.
+### 4. PesqMgm.Infrastructure.Data.Tests (Camada de Testes de Infraestrutura)
+Contém testes unitários para a implementação do repositório, garantindo que a persistência de dados funcione corretamente. Não foi possível terminar esta parte do código.
 
 ### 5. PesqMgm.Domain.Tests (Camada de Testes de Domínio)
-Contém testes unitários para as entidades e Value Objects do domínio, garantindo que a lógica de negócio esteja correta e robusta.
+Contém testes unitários para as entidades e Value Objects do domínio, garantindo que a lógica de negócio esteja correta e robusta. Não foi possível terminar esta parte do código.
 
 ## 6. Componentes .NET e Justificativas
 

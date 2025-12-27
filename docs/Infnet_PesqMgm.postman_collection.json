@@ -44,7 +44,7 @@
 						"Usuarios"
 					]
 				},
-				"description": "Cria um usuário com perfil de Gestor. O ID retornado é salvo automaticamente na variável `gestorId`."
+				"description": "Cria um usuário com perfil de Gestor. Caso queira criar com outro perfil, precisa informar o tipo (Gestor, LeitorDeRelatorios, Respondente). O ID retornado é salvo automaticamente na variável `gestorId`."
 			},
 			"response": []
 		},

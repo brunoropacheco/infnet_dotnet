@@ -10,12 +10,12 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("Infnet.PesqMgm.Domain")]
+[assembly: System.Reflection.AssemblyCompanyAttribute("Infnet.PesqMgm.Infrastructure.Data.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a96bd033098de0e37f5e08f54bbde7aaed0e6ec1")]
-[assembly: System.Reflection.AssemblyProductAttribute("Infnet.PesqMgm.Domain")]
-[assembly: System.Reflection.AssemblyTitleAttribute("Infnet.PesqMgm.Domain")]
+[assembly: System.Reflection.AssemblyProductAttribute("Infnet.PesqMgm.Infrastructure.Data.Tests")]
+[assembly: System.Reflection.AssemblyTitleAttribute("Infnet.PesqMgm.Infrastructure.Data.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
 
 // Gerado pela classe WriteCodeFragment do MSBuild.
