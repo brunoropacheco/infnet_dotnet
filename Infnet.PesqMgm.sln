@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infnet.PesqMgm.App", "src\I
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infnet.PesqMgm.Api", "src\Infnet.PesqMgm.Api\Infnet.PesqMgm.Api.csproj", "{6A5B4C3D-2E1F-0987-6543-210987654321}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infnet.PesqMgm.Infrastructure.Data.Tests", "Infnet.PesqMgm.Infrastructure.Data.Tests\Infnet.PesqMgm.Infrastructure.Data.Tests.csproj", "{99106B03-F4B2-4F82-84CA-B16414B14F7C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -85,6 +87,18 @@ Global
 		{6A5B4C3D-2E1F-0987-6543-210987654321}.Release|x64.Build.0 = Release|Any CPU
 		{6A5B4C3D-2E1F-0987-6543-210987654321}.Release|x86.ActiveCfg = Release|Any CPU
 		{6A5B4C3D-2E1F-0987-6543-210987654321}.Release|x86.Build.0 = Release|Any CPU
+		{99106B03-F4B2-4F82-84CA-B16414B14F7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99106B03-F4B2-4F82-84CA-B16414B14F7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99106B03-F4B2-4F82-84CA-B16414B14F7C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{99106B03-F4B2-4F82-84CA-B16414B14F7C}.Debug|x64.Build.0 = Debug|Any CPU
+		{99106B03-F4B2-4F82-84CA-B16414B14F7C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{99106B03-F4B2-4F82-84CA-B16414B14F7C}.Debug|x86.Build.0 = Debug|Any CPU
+		{99106B03-F4B2-4F82-84CA-B16414B14F7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99106B03-F4B2-4F82-84CA-B16414B14F7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99106B03-F4B2-4F82-84CA-B16414B14F7C}.Release|x64.ActiveCfg = Release|Any CPU
+		{99106B03-F4B2-4F82-84CA-B16414B14F7C}.Release|x64.Build.0 = Release|Any CPU
+		{99106B03-F4B2-4F82-84CA-B16414B14F7C}.Release|x86.ActiveCfg = Release|Any CPU
+		{99106B03-F4B2-4F82-84CA-B16414B14F7C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

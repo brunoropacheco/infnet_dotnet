@@ -21,7 +21,7 @@ public class UsuariosController : ControllerBase
     }
 
     /// <summary>
-    /// Cria um novo usuário (Gestor).
+    /// Cria um novo usuário. Deve ser informado o tipo do usuário (Gestor, LeitorDeRelatorios, Respondente)
     /// </summary>
     /// <param name="request">Dados do usuário a ser criado.</param>
     /// <returns>Retorna o ID do usuário criado.</returns>

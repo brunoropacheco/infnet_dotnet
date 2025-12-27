@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Infnet.PesqMgm.App")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+24b12fbc7315ae1bf5c974ff57b4916efe62d60f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a96bd033098de0e37f5e08f54bbde7aaed0e6ec1")]
 [assembly: System.Reflection.AssemblyProductAttribute("Infnet.PesqMgm.App")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Infnet.PesqMgm.App")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
